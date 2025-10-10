@@ -13,19 +13,39 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 #dataget preproccessed from rangpur
 #downloaded local 
 
-#get 10 pic from directory
-number_png = 10
+number_png = 5
 count = 0
 test_set = []
-directory = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data"
+
+directory_seg_test = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_seg_test"
+
+directory_train = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_test"
+
+avg_seg_size = 0
+avg_size = 0
+
 for entry in os.scandir(directory):  
-    if entry.is_file():  
-        print(entry.path)
+    if entry.is_file():
         a = PIL.Image.open(entry.path)
+        #print(a.size)
         test_set.append(a)
+        avg_size = avg_size + os.path.getsize(entry.path) / 2
         count+=1
     if count >= number_png:
         break
+
+for entry in os.scandir(directory_seg):  
+    if entry.is_file():
+        a = PIL.Image.open(entry.path)
+        #print(a.size)
+        test_set.append(a)
+        avg_seg_size = avg_seg_size + os.path.getsize(entry.path) / 2
+        count+=1
+    if count >= number_png:
+        break
+
+n_classes = 4
+classes = ["background","CSF", "grey", "white"]
 
 #uncomment to view png
 #for i in test_set:
