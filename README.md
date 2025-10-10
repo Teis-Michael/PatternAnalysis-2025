@@ -18,5 +18,19 @@ In the recognition folder, you will find many recognition problems solved includ
 * transformers
 etc.
 
-#s4801908 
-first test commit to test fork
+## COMP3710 s4801908 project 1 
+Segment the 2D OASIS brain data set with an Improved UNet [1] or 2D CAN [2] with all labels having a
+minimum Dice similarity coefficient of 0.9 on the test set. [Easy Difficulty]
+
+algorithm: Improved UNet for image segmentsation
+problem: segment 2D OASIS brain scans
+
+# dependencies
+scikit-learn 1.7.1
+matplotlib 3.10.0
+numpy 2.3.2
+torch 2.8
+torchmetric 1.8.
+PIL 11.1.0
+
+
