@@ -26,6 +26,9 @@ problem: segment 2D OASIS brain scans
 
 # working principles 
 algorithm implemented, problem solved. 
+the dataset consists of a image and a segmentation image that acts as the image mask.
+these are used in a Unet model that consists of _x_ layers of _y_ including a encoder, decoder.
+this is then trained with epochs and learning rate of _z_.
 
 # dependencies
 scikit-learn 1.7.1

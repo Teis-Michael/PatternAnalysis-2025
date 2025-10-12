@@ -10,7 +10,6 @@ import PIL
 from PIL import Image
 import os
 
-
 def displayNumpyArray(arr :np.array):
     """converts np.array to image then display image"""
     image = Image.fromarray(arr)

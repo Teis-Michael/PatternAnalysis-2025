@@ -54,10 +54,5 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     print(" Training complete with enhanced U-Net!")
     return losses
 
-
-
-
-
-
 model = Unet(ins=3, outs=1, dropout=0.2)
 losses = train(model, train_loader, test_loader, epochs=3, lr=0.001)
