@@ -1,14 +1,9 @@
-from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 import numpy as np
+import debugHelp as dh
 import torch
 import torchvision
-from torch import nn
-from torch import optim
 import PIL
 import os
-import debugHelp as dh
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
