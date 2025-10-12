@@ -15,3 +15,16 @@ def displayNumpyArray(arr :np.array):
     """converts np.array to image then display image"""
     image = Image.fromarray(arr)
     image.show()
+
+def displayNormalise(arr: np.array):
+    #TODO fix dispaly
+    """display image that has been normalised"""
+    fig = plt.figure(gihsize=())
+    #X, Y = np.meshgrid
+    #plt.pcolormesh(X, Y, arr)
+    plt.imshow(arr, interpolation='none')
+    plt.show()
+
+    #un normalise array
+    #convert to image
+    #show
