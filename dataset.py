@@ -14,13 +14,13 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 #downloaded local 
 number_png = 5
-
 directory_seg_train = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_seg_train"
 directory_train = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_train"
 directory_seg_test = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_seg_test"
 directory_test = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_test"
 
-def dataFromFile(path: str, size: int):
+def dataFromFile(path: str, size: int) -> list[PIL.Image]:
+    """imports 'size' number of images from 'path' return array of PIL."""
     count = 0
     sets = []
     for entry in os.scandir(directory_train):  
@@ -68,6 +68,5 @@ train_customdataset = ImageDataset(train_set, seg_train_set)
 
 #train loader
 batch_size = 3
-#train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_size=batch_size, shuffle=True)
-
-#test loader
+train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_size=batch_size, shuffle=True)
+test_loader = torch.utils.data.DataLoader(dataset=test_customdataset, batch_size=batch_size, shuffle=True)
