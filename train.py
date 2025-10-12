@@ -7,7 +7,7 @@ import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-def train(model, train_loader, test_dataset, epochs=3, lr=0.001):
+def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     model.to(device)
     #criterion = diceloss()
     #optimiser

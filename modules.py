@@ -5,7 +5,7 @@ from torch import nn
 
 class Unet(nn.Module):
     def __init__(self, ins, outs, dropout):
-        super(CNN, self).__init__()
+        super(Unet, self).__init__()
         #TODO alter channels number to align with actual dataset 256, 256 -> 64, 64
         # Encoder (downsampling)
         self.enc1 = self._conv_block(ins, 32, dropout)
