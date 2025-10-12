@@ -24,9 +24,16 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
         # Training loop with progress
         for batch_idx, (images, masks) in enumerate(train_loader):
             images, masks = images.to(device), masks.to(device)
-
+            #images = images.to(dtype = torch.float32)
+            images = images.float()
             #optimizer.zero_grad()
-            outputs = model(images)
+            print(type(images))
+            print(type(images[0]))
+            print(type(images[0][0]))
+            print(type(images[0][0][0]))
+            print(images[0][0][0])
+            
+            outputs = model(images) #TODO convert to float
 
             pred_pet = outputs[:, 0]  # Pet class probability from sigmoid
             #print the shape of pred_pet and masks for debugging
