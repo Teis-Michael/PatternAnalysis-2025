@@ -1,8 +1,9 @@
 import numpy as np
 import torch
 from torch import nn
+#UNet_segmentation_code_demo.ipynb
 
-class CNN(nn.Module):
+class Unet(nn.Module):
     def __init__(self, ins, outs, dropout):
         super(CNN, self).__init__()
         #TODO alter channels number to align with actual dataset 256, 256 -> 64, 64
