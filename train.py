@@ -1,5 +1,6 @@
 import modules
 from modules import Unet
+from modules import diceloss
 import dataset
 from dataset import train_loader
 from dataset import test_loader
@@ -7,9 +8,10 @@ import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+
 def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     model.to(device)
-    #criterion = diceloss()
+    criterion = diceloss()
     #optimiser
 
     losses = []
@@ -35,16 +37,16 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
             
             outputs = model(images) #TODO convert to float
 
-            pred_pet = outputs[:, 0]  # Pet class probability from sigmoid
+            pred = outputs[:, 0]  # Pet class probability from sigmoid
             #print the shape of pred_pet and masks for debugging
             # print(f"pred_pet shape: {outputs.shape}, masks shape: {masks.shape}")
-            #loss = criterion(pred_pet, masks)
+            loss = criterion(pred, masks)
 
             # Backward pass
-            #loss.backward()
+            loss.backward()
             #optimizer.step()
 
-            #epoch_loss += loss.item()
+            epoch_loss += loss.item()
 
         avg_loss = epoch_loss / len(train_loader)
         losses.append(avg_loss)

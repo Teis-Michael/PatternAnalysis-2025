@@ -51,3 +51,20 @@ class Unet(nn.Module):
         out = self.sigmoid(out)
 
         return x
+    
+class diceloss(nn.Module):
+    def __init__(self, smooth=1e-8):
+        super(diceloss, self).__init__()
+        self.smooth = smooth
+    
+    def forward(self, pred, targ):
+        #flatten
+        pred = pred.reshape(-1)
+        targ = targ.reshape(-1).float()
+    
+        #intersect and union
+        inter = (pred * targ).sum() + self.smooth
+        union = pred.sum() + targ.sum() + self.smooth
+
+        dice_coeff = (2. * inter) / union
+        return 1 - dice_coeff
