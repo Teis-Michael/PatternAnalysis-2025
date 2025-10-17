@@ -37,8 +37,7 @@ class Unet(nn.Module):
         )
 
     def forward(self, x: torch.tensor):
-        #TODO 64x64 to 256x256
-        print(x.shape)
+        #print(x.shape)
         # Encoder
         e1 = self.enc1(x)          # 64x64
         e2 = self.enc2(self.pool(e1))  # 32x32
@@ -50,13 +49,14 @@ class Unet(nn.Module):
         out = self.dec1(d2)
 
         # Apply sigmoid activation to final output
-        print("out: ", out.shape)
+        #print("out: ", out.shape)
         out = self.sigmoid(self.pool(out))
-        print("out after", out.shape)
+        #print("out after", out.shape)
         #out = self.sigmoid(out)
 
         #return out
         #return x
+        print(self.pool(out).shape)
         return self.pool(out)
     
 class diceloss(nn.Module):
