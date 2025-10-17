@@ -18,6 +18,7 @@ class Unet(nn.Module):
         self.dec1 = nn.Conv2d(32, outs, 1)
 
         self.pool = nn.MaxPool2d(2)
+        self.pool2 = nn.MaxPool2d(2)
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
         self.sigmoid = nn.Sigmoid()  # Sigmoid activation for final output
 
@@ -35,8 +36,9 @@ class Unet(nn.Module):
             nn.Dropout2d(dropout_p)
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.tensor):
         #TODO 64x64 to 256x256
+        print(x.shape)
         # Encoder
         e1 = self.enc1(x)          # 64x64
         e2 = self.enc2(self.pool(e1))  # 32x32
@@ -48,9 +50,14 @@ class Unet(nn.Module):
         out = self.dec1(d2)
 
         # Apply sigmoid activation to final output
-        out = self.sigmoid(out)
+        print("out: ", out.shape)
+        out = self.sigmoid(self.pool(out))
+        print("out after", out.shape)
+        #out = self.sigmoid(out)
 
-        return x
+        #return out
+        #return x
+        return self.pool(out)
     
 class diceloss(nn.Module):
     def __init__(self, smooth=1e-8):

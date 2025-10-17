@@ -25,21 +25,23 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
 
         # Training loop with progress
         for batch_idx, (images, masks) in enumerate(train_loader):
-            images, masks = images.to(device), masks.to(device)
+
+            images = images.to(device)
+            masks = masks.to(device)
+            
             #images = images.to(dtype = torch.float32)
             images = images.float()
             #optimizer.zero_grad()
-            print(type(images))
-            print(type(images[0]))
-            print(type(images[0][0]))
-            print(type(images[0][0][0]))
-            print(images[0][0][0])
             
+            print(images.size())
+            images = images.unsqueeze(1).to(device)
+            print(images.size())
+
             outputs = model(images) #TODO convert to float
 
-            pred = outputs[:, 0]  # Pet class probability from sigmoid
+            pred = outputs[:, 0]  # class probability from sigmoid
             #print the shape of pred_pet and masks for debugging
-            # print(f"pred_pet shape: {outputs.shape}, masks shape: {masks.shape}")
+            print(f"pred shape: {pred.shape}, masks shape: {masks.shape}")
             loss = criterion(pred, masks)
 
             # Backward pass
@@ -63,5 +65,5 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     print(" Training complete with enhanced U-Net!")
     return losses
 
-model = Unet(ins=3, outs=1, dropout=0.2)
+model = Unet(ins=1, outs=1, dropout=0.2)
 losses = train(model, train_loader, test_loader, epochs=3, lr=0.001)
