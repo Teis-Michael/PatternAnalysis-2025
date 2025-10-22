@@ -15,7 +15,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     model.to(device)
     criterion = diceloss()
-    #optimiser
+    optimiser = torch.optim.Adam(model.parameters(), lr=lr)
 
     losses = []
 
@@ -30,22 +30,20 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
         for batch_idx, (images, masks) in enumerate(train_loader):
             images = images.to(device)
             masks = masks.to(device)
-            print(images.shape, " : ", masks.shape)
-            
-            #images = images.to(dtype = torch.float32)
             images = images.float()
             #optimizer.zero_grad()
 
             images = images.unsqueeze(1).to(device)
-            #print(images.shape)
+            
             outputs = model(images)
 
             pred = outputs[:, 0]  
             #print(f"pred shape: {pred.shape}, masks shape: {masks.shape}")
             loss = criterion(pred, masks)
+            optimiser.zero_grad()
             # Backward pass
             loss.backward()
-            #optimizer.step()
+            optimiser.step()
             epoch_loss += loss.item()
 
         avg_loss = epoch_loss / len(train_loader)
@@ -55,66 +53,24 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
         if(avg_loss < 0.05):
             print("Success")
 
-        # Visualize predictions after each epoch
-        """
-        model.eval()
-        fig, axes = plt.pyplot.subplots(3, 1, figsize=(12, 9))
-        image, mask = enumerate(test_loader) #test_customdataset[1]
-        #print(image)
-        #print(len(image))
-        #print(image[0])
-        #print(image[1][0])
-        #print(image[1][1])
-        images = image[1][0].to(device)
-        #images = torch.from_numpy(image)
-        images = images.float()
-        images = images.unsqueeze(1).to(device)
-        for i in images:
-            print(i.shape)
-        pred = model(images)
-        for i in images:
-            print(i.shape)
-
-        mask = image[1][1]
-        pred = pred.detach().numpy() * 85
-        mask = mask.detach().numpy() * 85
-        
-        print(pred[0].shape)
-        axes[0].imshow(pred[0][0]) #numpy
-        axes[1].imshow(pred[1][0]) #numpy
-        axes[2].imshow(pred[2][0]) #numpy
-        #axes[1].imshow(mask)
-
-        plt.pyplot.show()
-        model.train()
-        """
-
-
     print(" Training complete with enhanced U-Net!")
     model.eval()
-    fig, axes = plt.pyplot.subplots(3, 2, figsize=(12, 9))
-    image, mask = enumerate(test_loader) #test_customdataset[1]
-    #print("image, ", image.shape, " mask: ", mask.shape)
-    images = image[1][0].to(device)
+    fig, axes = plt.pyplot.subplots(1, 2, figsize=(12, 9))
+    #batch_idx, image, masks = enumerate(test_loader) #test_customdataset[1]
+    image, masks = test_customdataset[1]
+
+    images = torch.from_numpy(image).to(device) #[1][0].to(device)
     images = images.float()
     images = images.unsqueeze(1).to(device)
-    for i in images:
-        print(i.shape)
-    pred = model(images)
-    for i in images:
-        print(i.shape)
 
-    mask = image[1][1]
-    pred = pred.detach().numpy() #* 85
-    mask = mask.detach().numpy() #* 85
-
+    #mask = image[1][1]
+    pred = pred.detach().numpy()
+    #mask = mask.detach().numpy()
+    
     print("pred: ", pred.shape)
-    axes[0, 0].imshow(pred[0][0]) #numpy
-    axes[1, 0].imshow(pred[1][0]) #numpy
-    axes[2, 0].imshow(pred[2][0]) #numpy
-    axes[0, 1].imshow(mask[0])
-    axes[1, 1].imshow(mask[1])
-    axes[2, 1].imshow(mask[2])
+    print("mask: ", masks.shape)
+    axes[0].imshow(pred[0]) 
+    axes[1].imshow(masks)
 
     plt.pyplot.show()
     model.train()
@@ -122,4 +78,4 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     return losses
 
 model = Unet(ins=1, outs=4, dropout=0.2)
-losses = train(model, train_loader, test_loader, epochs=1, lr=0.001)
+losses = train(model, train_loader, test_loader, epochs=8, lr=0.001)

@@ -19,7 +19,7 @@ def dataFromFile(path: str, size: int) -> list[PIL.Image]:
     count = 0
     sets = []
     for entry in os.scandir(path):  
-        print(entry)
+        #print(entry)
         if entry.is_file():
             a = PIL.Image.open(entry.path)
             sets.append(a)
@@ -63,6 +63,6 @@ test_customdataset = ImageDataset(test_set, seg_test_set)
 train_customdataset = ImageDataset(train_set, seg_train_set)
 
 #train loader
-batch_size = 2
+batch_size = 3
 train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_size=batch_size, shuffle=True)
 test_loader = torch.utils.data.DataLoader(dataset=test_customdataset, batch_size=batch_size, shuffle=True)

@@ -56,7 +56,7 @@ class Unet(nn.Module):
 
         #return out
         #return x
-        print(self.pool(out).shape)
+        #print(self.pool(out).shape)
         return self.pool(out)
     
 class diceloss(nn.Module):
