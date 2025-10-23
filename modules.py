@@ -8,17 +8,21 @@ class Unet(nn.Module):
         super(Unet, self).__init__()
         #TODO alter channels number to align with actual dataset 256, 256 -> 64, 64
         # Encoder (downsampling)
-        self.enc1 = self._conv_block(ins, 32, dropout)
+        #self.enc1 = self._conv_block(ins, 32, dropout)
+        self.enca = self._conv_block(ins, 16, dropout)
+        self.encb = self._conv_block(16, 32, dropout)
         self.enc2 = self._conv_block(32, 64, dropout)
         self.enc3 = self._conv_block(64, 128, dropout)
 
         # Decoder (upsampling)
         self.dec3 = self._conv_block(128 + 64, 64, dropout)
         self.dec2 = self._conv_block(64 + 32, 32, dropout)
-        self.dec1 = nn.Conv2d(32, outs, 1)
+        self.deca = self._conv_block(32 + 16, 16, dropout)
+        self.decb = nn.Conv2d(16, outs, 1)
+        #self.decb = nn.Conv2d(16, outs, 3)
+        #self.dec1 = nn.Conv2d(32, outs, 1)
 
         self.pool = nn.MaxPool2d(2)
-        self.pool2 = nn.MaxPool2d(2)
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
         self.sigmoid = nn.Sigmoid()  # Sigmoid activation for final output
 
@@ -39,14 +43,18 @@ class Unet(nn.Module):
     def forward(self, x: torch.tensor):
         #print(x.shape)
         # Encoder
-        e1 = self.enc1(x)          # 64x64
+        e0 = self.enca(x)
+        e1 = self.encb(self.pool(e0))
+
+        #e1 = self.enc1(x)          # 64x64
         e2 = self.enc2(self.pool(e1))  # 32x32
         e3 = self.enc3(self.pool(e2))  # 16x16
 
         # Decoder with skip connections
         d3 = self.dec3(torch.cat([self.upsample(e3), e2], 1))  # 32x32
         d2 = self.dec2(torch.cat([self.upsample(d3), e1], 1))  # 64x64
-        out = self.dec1(d2)
+        d2 = self.deca(torch.cat([self.upsample(d2), e0], 1))
+        out = self.decb(d2) #dec1(d2)
 
         # Apply sigmoid activation to final output
         #print("out: ", out.shape)

@@ -50,12 +50,12 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
         losses.append(avg_loss)
         print(f"📈 Epoch {epoch+1}/{epochs} Complete: Avg Loss = {avg_loss:.4f}")
 
-        if(avg_loss < 0.05):
-            print("Success")
+        #if(avg_loss < 0.05):
+        #    print("Success")
 
     print(" Training complete with enhanced U-Net!")
     model.eval()
-    fig, axes = plt.pyplot.subplots(1, 2, figsize=(12, 9))
+    fig, axes = plt.pyplot.subplots(1, 3, figsize=(12, 9))
     #batch_idx, image, masks = enumerate(test_loader) #test_customdataset[1]
     image, masks = test_customdataset[1]
 
@@ -71,6 +71,7 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     print("mask: ", masks.shape)
     axes[0].imshow(pred[0]) 
     axes[1].imshow(masks)
+    axes[2].imshow(image)
 
     plt.pyplot.show()
     model.train()
@@ -78,4 +79,6 @@ def train(model, train_loader, test_loader, epochs=3, lr=0.001):
     return losses
 
 model = Unet(ins=1, outs=4, dropout=0.2)
-losses = train(model, train_loader, test_loader, epochs=8, lr=0.001)
+#lowered learning rate to improve performance
+#non optimal learning optima due to large region of the same value. 
+losses = train(model, train_loader, test_loader, epochs=50, lr=0.0005)

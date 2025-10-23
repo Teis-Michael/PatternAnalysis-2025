@@ -27,3 +27,8 @@ def displayNormalise(arr: np.array):
     #un normalise array
     #convert to image
     #show
+
+def NormaliseMinMax(ten: torch.tensor):
+    t_min, _ = torch.min(ten, dim=1, keepdim=True)
+    t_max, _ = torch.max(ten, dim=1, keepdim=True)
+    return (ten - t_min) / (t_max - t_min)
