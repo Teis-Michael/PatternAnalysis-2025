@@ -29,8 +29,6 @@ def show_predictions(model: Unet, dataset, title = "test", n = 3):
             pred = model(images)[:, 0] 
             pred = pred.detach().numpy()
                 
-            print("pred: ", pred.shape)
-            print("mask: ", true_mask.shape)
             axes[i, 0].imshow(pred[0]) 
             axes[i, 1].imshow(true_mask)
             axes[i, 2].imshow(image)

@@ -32,9 +32,7 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
             images = images.to(device)
             masks = masks.to(device)
             images = images.float()
-            #print(images.shape)
             images = images.unsqueeze(1).to(device)
-            #print(images.shape)
             outputs = model(images)
 
             pred = outputs[:, 0]  
@@ -57,7 +55,7 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
     fig, axes = plt.pyplot.subplots(1, 3, figsize=(12, 9))
     image, masks = test_customdataset[1]
 
-    images = torch.from_numpy(image).to(device) #[1][0].to(device)
+    images = torch.from_numpy(image).to(device)
     images = images.float()
     images = images.unsqueeze(1).to(device)
 
@@ -78,21 +76,14 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 model = Unet(ins=1, outs=4, dropout=0.2)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
-losses, eco = train(model, train_loader, test_customdataset, epochs=100, lr=0.001)
+losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr=0.001)
 
 #tqdm
-#(losses)
 plt.pyplot.axhline(y=0, color='r', linestyle='--')
-#print(losses)
-#print(eco)
-plt.pyplot.plot(eco, losses)#, color ="red")
-
-# Add labels and a title for clarity
+plt.pyplot.plot(eco, losses)
 plt.pyplot.xlabel("epoch")
 plt.pyplot.ylabel("loss")
 plt.pyplot.title("losses over epochs")
-
-# Display the plot
 plt.pyplot.show()
 
 show_predictions(model, test_customdataset)
