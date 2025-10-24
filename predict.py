@@ -4,14 +4,14 @@ import dataset
 from dataset import train_loader
 from dataset import test_customdataset
 import torch
-import train
-from train import model
+#import train
+#from train import model
 import matplotlib.pyplot as plt
 import numpy as np
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-def show_predictions(model, dataset, title = "test", n = 3):
+def show_predictions(model: Unet, dataset, title = "test", n = 3):
     model.eval()
     fig, axes = plt.subplots(3, n, figsize=(12, 9))
     fig.suptitle(title, fontsize=16, fontweight='bold')
@@ -22,8 +22,11 @@ def show_predictions(model, dataset, title = "test", n = 3):
 
             images = torch.from_numpy(image).to(device) #[1][0].to(device)
             images = images.float()
-            images = images.unsqueeze(1).to(device)
-
+            #print(images.shape)
+            images = images.unsqueeze(0)
+            images = images.unsqueeze(0).to(device)
+            #print(images.shape)
+            pred = model(images)[:, 0] 
             pred = pred.detach().numpy()
                 
             print("pred: ", pred.shape)
@@ -35,5 +38,3 @@ def show_predictions(model, dataset, title = "test", n = 3):
     plt.tight_layout()
     plt.show()
 
-# Show results
-show_predictions(model, test_customdataset)

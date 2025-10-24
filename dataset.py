@@ -19,7 +19,6 @@ def dataFromFile(path: str, size: int) -> list[PIL.Image]:
     count = 0
     sets = []
     for entry in os.scandir(path):  
-        #print(entry)
         if entry.is_file():
             a = PIL.Image.open(entry.path)
             sets.append(a)
@@ -41,13 +40,25 @@ class ImageDataset(torch.utils.data.Dataset):
     def __init__(self, X, Y):
         self.X = X
         self.Y = Y
+        self.transform = torchvision.transforms.Normalize(0, 1) 
+
     def __len__(self):
+        """return len of data"""
         return len(self.X)
+    
     def __getitem__(self, idx):
-        #return image and image mask
+        """return image and image mask"""
         image_temp = np.array(self.X[idx])
         #image_temp = dh.NormaliseMinMax(torch.from_numpy(image_temp)).numpy()
-        torchvision.transforms.Normalize(torch.from_numpy(image_temp) ,0, 1)
+        temp = torch.from_numpy(image_temp).float()
+        image_temp = temp.unsqueeze(0)
+        #print(image_temp.shape)
+        image_temp = self.transform(image_temp) 
+        # torchvision.transforms.Normalize(torch.from_numpy(image_temp) ,0, 1)(image_temp)
+        #print(image_temp.shape)
+        image_temp = image_temp.reshape(256, 256)
+        image_temp = np.array(image_temp)
+        #dh.displayNumpyArray(image_temp.numpy())
         mask = PIL.Image.fromarray(np.array(self.Y[idx]))
         mask = torchvision.transforms.Resize((64, 64),
                 interpolation=torchvision.transforms.InterpolationMode.NEAREST)(mask)
@@ -57,6 +68,9 @@ class ImageDataset(torch.utils.data.Dataset):
         binary_mask[mask == 170] = 2 #2/3 #2
         binary_mask[mask == 255] = 3 #1 #3
         binary_mask[mask == 0] = 0
+
+
+
         return image_temp, binary_mask
 
 #dataset creator
