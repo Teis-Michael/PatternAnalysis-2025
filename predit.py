@@ -20,31 +20,17 @@ def show_predictions(model, dataset, title = "test", n = 3):
         for i in range(n):
             image, true_mask = dataset[i]
 
-            # Predict with sigmoid model
-            pred = model(image.unsqueeze(0).to(device))
-            # Get pet class probability and convert to binary
-            pred_pet_prob = pred[0, 0].cpu().numpy()  # Pet class probability
-            pred_binary = (pred_pet_prob > 0.5).astype(int)  # Binary prediction
+            images = torch.from_numpy(image).to(device) #[1][0].to(device)
+            images = images.float()
+            images = images.unsqueeze(1).to(device)
 
-            # Denormalize image for visualization
-            #img_show = denormalize_image(image)
-
-            # Show original color image (transpose from CHW to HWC for matplotlib)
-            #img_display = img_show.permute(1, 2, 0).numpy()  # CHW -> HWC
-            #axes[0, i].imshow(img_display)
-            #axes[0, i].set_title(f'Original {i+1}', fontweight='bold')
-            #axes[0, i].axis('off')
-
-            # Show ground truth binary mask
-            axes[1, i].imshow(true_mask, cmap='RdYlBu_r', vmin=0, vmax=1)
-            axes[1, i].set_title(f'Ground Truth {i+1}', fontweight='bold')
-            axes[1, i].axis('off')
-
-            # Show prediction
-            axes[2, i].imshow(pred_binary, cmap='RdYlBu_r', vmin=0, vmax=1)
-            accuracy = np.mean(pred_binary == true_mask.numpy())
-            axes[2, i].set_title(f'Prediction {i+1} (Acc: {accuracy:.2f})', fontweight='bold')
-            axes[2, i].axis('off')
+            pred = pred.detach().numpy()
+                
+            print("pred: ", pred.shape)
+            print("mask: ", true_mask.shape)
+            axes[i, 0].imshow(pred[0]) 
+            axes[i, 1].imshow(true_mask)
+            axes[i, 2].imshow(image)
 
     plt.tight_layout()
     plt.show()
