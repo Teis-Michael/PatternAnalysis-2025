@@ -73,10 +73,10 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
     return losses, epo_count
 
-model = Unet(ins=1, outs=4, dropout=0.2)
+model = Unet(ins=1, outs=4, dropout=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
-losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr=0.001)
+losses, eco = train(model, train_loader, test_customdataset, epochs=1500, lr=0.0005)
 
 #tqdm
 plt.pyplot.axhline(y=0, color='r', linestyle='--')
@@ -87,3 +87,5 @@ plt.pyplot.title("losses over epochs")
 plt.pyplot.show()
 
 show_predictions(model, test_customdataset)
+
+#trry adding loss after each epoch
