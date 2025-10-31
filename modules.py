@@ -72,10 +72,31 @@ class diceloss(nn.Module):
         #flatten
         pred = pred.reshape(-1)
         targ = targ.reshape(-1).float()
+
+        #pred = torch.sigmoid(pred)
+        #targ = torch.sigmoid(targ)
+
+        print("targ shape " , targ.shape)
+        print("targ type " , targ.type())
+        print("targ max " , torch.max(targ))
+        print("targ min " , torch.min(targ))
+        print("targ mean " , torch.mean(targ))
+        print("targ var " , torch.var(targ))
+        print()
+        print("pred shape " , pred.shape)
+        print("pred type " , pred.type())
+        print("pred max " , torch.max(pred))
+        print("pred min " , torch.min(pred))
+        print("pred mean " , torch.mean(pred))
+        print("pred var " , torch.var(pred))
     
+        
         #intersect and union
+        print("pred: ", pred.sum(), " targ: ", targ.sum())
         inter = (pred * targ).sum() + self.smooth
+        print("inter: ", inter)
         union = pred.sum() + targ.sum() + self.smooth
+        print("union: ", union)
 
         dice_coeff = (2. * inter) / union
         return 1 - dice_coeff

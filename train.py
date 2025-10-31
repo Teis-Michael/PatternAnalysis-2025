@@ -13,7 +13,6 @@ from predict import show_predictions
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-
 def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
     model.to(device)
     criterion = diceloss()
@@ -36,15 +35,15 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
             outputs = model(images)
 
             pred = outputs[:, 0]  
-            #print(f"pred shape: {pred.shape}, masks shape: {masks.shape}")
+            
             loss = criterion(pred, masks)
             optimiser.zero_grad()
+
             # Backward pass
             loss.backward()
             optimiser.step()
             epoch_loss += loss.item()
             
-
         avg_loss = epoch_loss / len(train_loader)
         losses.append(avg_loss)
         epo_count.append(epoch)
@@ -76,9 +75,12 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 model = Unet(ins=1, outs=4, dropout=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
-losses, eco = train(model, train_loader, test_customdataset, epochs=1500, lr=0.0005)
 
-#tqdm
+losses, eco = train(model, train_loader, test_customdataset, epochs=30, lr = 0.05) 
+#losses, eco = train(model, train_loader, test_customdataset, epochs=1, lr = 0.0005)
+#losses, eco = train(model, train_loader, test_customdataset, epochs=500, lr = 0.0008)
+
+#create plot of losses over epoch
 plt.pyplot.axhline(y=0, color='r', linestyle='--')
 plt.pyplot.plot(eco, losses)
 plt.pyplot.xlabel("epoch")
@@ -88,4 +90,4 @@ plt.pyplot.show()
 
 show_predictions(model, test_customdataset)
 
-#trry adding loss after each epoch
+#TODO try adding loss after each epoch

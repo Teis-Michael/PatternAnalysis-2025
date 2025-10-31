@@ -50,19 +50,18 @@ class ImageDataset(torch.utils.data.Dataset):
         """return image and image mask"""
         image_temp = np.array(self.X[idx])
         temp = torch.from_numpy(image_temp).float()
-        image_temp = temp.unsqueeze(0)
-        image_temp = self.transform(image_temp) 
-        image_temp = image_temp.reshape(256, 256)
-        #image_temp = np.array(image_temp)
-        image_temp = np.asanyarray(image_temp)
+        image = temp.unsqueeze(0)
+        image_aft = self.transform(image) 
+        image_aft = image_aft.reshape(256, 256)
+        image_temp = np.asanyarray(image_aft)
         mask = PIL.Image.fromarray(np.array(self.Y[idx]))
         mask = torchvision.transforms.Resize((64, 64),
                 interpolation=torchvision.transforms.InterpolationMode.NEAREST)(mask)
         mask = np.array(mask)
         binary_mask = np.zeros_like(mask, dtype=np.uint8)
-        binary_mask[mask == 85] = 1 #1/3 #1
-        binary_mask[mask == 170] = 2 #2/3 #2
-        binary_mask[mask == 255] = 3 #1 #3
+        binary_mask[mask == 85] = 1
+        binary_mask[mask == 170] = 2
+        binary_mask[mask == 255] = 3
         binary_mask[mask == 0] = 0
 
         return image_temp, binary_mask
@@ -77,7 +76,6 @@ train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_si
 test_loader = torch.utils.data.DataLoader(dataset=test_customdataset, batch_size=batch_size, shuffle=True)
 
 if __name__ == '__main__':
-    print("main")
-    test_customdataset = ImageDataset(test_set, seg_test_set)
-    a,b = test_customdataset.__getitem__(0) # [1]
+    #view normalisation method
+    a,b = test_customdataset.__getitem__(0)
     dh.testNormalisemethod(a)

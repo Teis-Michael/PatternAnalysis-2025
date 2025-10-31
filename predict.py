@@ -4,8 +4,6 @@ import dataset
 from dataset import train_loader
 from dataset import test_customdataset
 import torch
-#import train
-#from train import model
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -20,12 +18,12 @@ def show_predictions(model: Unet, dataset, title = "test", n = 3):
         for i in range(n):
             image, true_mask = dataset[i]
 
-            images = torch.from_numpy(image).to(device) #[1][0].to(device)
+            images = torch.from_numpy(image).to(device)
             images = images.float()
-            #print(images.shape)
+
             images = images.unsqueeze(0)
             images = images.unsqueeze(0).to(device)
-            #print(images.shape)
+            
             pred = model(images)[:, 0] 
             pred = pred.detach().numpy()
                 

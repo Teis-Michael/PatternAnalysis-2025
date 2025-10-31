@@ -24,6 +24,8 @@ Segment the 2D OASIS brain data set with an Improved UNet [1] or 2D CAN [2] with
 algorithm: Improved UNet for image segmentsation
 problem: segment 2D OASIS brain scans
 
+semantic segmentation 
+
 # working principles 
 algorithm implemented, problem solved. 
 the dataset consists of a image and a segmentation image that acts as the image mask.
