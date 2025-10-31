@@ -1,6 +1,6 @@
 import modules
 from modules import Unet
-from modules import diceloss
+from modules import *
 import dataset
 from dataset import train_loader
 from dataset import test_customdataset
@@ -15,7 +15,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
     model.to(device)
-    criterion = diceloss() #torch.nn.BCEWithLogitsLoss #torch.nn.BCELoss() #diceloss()
+    criterion = MultiClassDiceLoss() #torch.nn.BCEWithLogitsLoss #torch.nn.BCELoss() #diceloss()
     optimiser = torch.optim.Adam(model.parameters(), lr=lr)
 
     losses = []
@@ -77,7 +77,7 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
 #model = Unet(ins=1, outs=4, dropout=0.1)
 
-model = Unet(in_channels=1, out_channels=1, dropout_p=0.1)
+model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
 

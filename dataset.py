@@ -55,8 +55,8 @@ class ImageDataset(torch.utils.data.Dataset):
         image_aft = image_aft.reshape(256, 256)
         image_temp = np.asanyarray(image_aft)
         mask = PIL.Image.fromarray(np.array(self.Y[idx]))
-        mask = torchvision.transforms.Resize((64, 64),
-                interpolation=torchvision.transforms.InterpolationMode.NEAREST)(mask)
+        #mask = torchvision.transforms.Resize((64, 64),
+        #        interpolation=torchvision.transforms.InterpolationMode.NEAREST)(mask)
         mask = np.array(mask)
         binary_mask = np.zeros_like(mask, dtype=np.uint8)
         binary_mask[mask == 85] = 1

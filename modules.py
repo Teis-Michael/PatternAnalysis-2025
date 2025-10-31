@@ -151,3 +151,28 @@ class diceloss(nn.Module):
         print(dice_coeff)
         # Return Dice Loss (1 - Dice Coefficient)
         return 1 - dice_coeff
+    
+
+class MultiClassDiceLoss(nn.Module):
+    def __init__(self, smooth=1e-8):
+        super().__init__()
+        self.smooth = smooth
+        self.num_classes = 4
+    
+    def forward(self, pred, targ):
+        """return loss value"""
+        target_one_hot = torch.nn.functional.one_hot(targ.long(),self.num_classes)
+        target_one_hot =  target_one_hot.permute(0,3,1,2).float()
+
+        pred =  torch.softmax(pred, dim=1)
+
+        dice_scores = []
+
+        for cls in range(self.num_classes):
+            pred_cls = pred[:,cls].reshape(-1)
+            target_cls = target_one_hot[:,cls].reshape(-1)
+            intersection = (pred_cls * target_cls).sum()
+            dice_coeff = (2.0 * intersection + self.smooth) / (pred_cls.sum() + target_cls.sum() + self.smooth)
+            dice_scores.append(dice_coeff)
+
+            return 1 - torch.mean(torch.stack(dice_scores))
