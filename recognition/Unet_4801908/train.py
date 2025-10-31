@@ -86,4 +86,6 @@ plt.pyplot.ylabel("loss")
 plt.pyplot.title("losses over epochs")
 plt.pyplot.show()
 
+torch.save(model.state_dict(), "model")
+
 show_predictions(model, test_customdataset)
