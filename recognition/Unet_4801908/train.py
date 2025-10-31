@@ -76,7 +76,7 @@ model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
 
 losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.05)
 #losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.0005)
-#losses, eco = train(model, train_loader, test_customdataset, epochs=100, lr = 0.0005)
+#losses, eco = train(model, train_loader, test_customdataset, epochs=1000, lr = 0.0005)
 
 #create plot of losses over epoch
 plt.pyplot.axhline(y=0, color='r', linestyle='--')
