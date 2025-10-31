@@ -16,11 +16,13 @@ def displayNumpyArray(arr :np.array):
     image.show()
 
 def NormaliseMinMax(ten: torch.tensor):
+    """example normalise method"""
     t_min, _ = torch.min(ten, dim=1, keepdim=True)
     t_max, _ = torch.max(ten, dim=1, keepdim=True)
     return (ten - t_min) / (t_max - t_min)
 
 def testNormalisemethod(ten):
+    """visualise different normalisation methods"""
     fig, axes = plt.subplots(3, 3, figsize=(12, 9))
     
     #process and normalise data
@@ -39,6 +41,8 @@ def testNormalisemethod(ten):
     
     #display different processing methods
     axes[0, 0].imshow(ten) 
+    axes[0, 1].imshow(np.array(NormaliseMinMax(temp)))
+    axes[0,2].imshow(np.array(torch.sigmoid(a * -1).squeeze(0) * -1))
     axes[1, 0].imshow(np.array(ten2.squeeze(0)))
     axes[1, 1].imshow(np.array(ten_compose.squeeze(0)))
     axes[1, 2].imshow(np.array(a.squeeze(0)))

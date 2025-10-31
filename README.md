@@ -45,9 +45,16 @@ some variation in end results. <ins>random selection from dataset</ins>
 
 ## example
 # input
+from the 2D OASIS brain data and input image and mask where collected. 
+''from png labeled slices and seg. ''
+the mask is resize to 64x64 using a nearest interpolation method
+the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1
 inputs
 # output
-outputs
+// current 
+outputs a //check output size// with 1 channel. this is compared with a dice loss function to determine loss.  
+
+the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
 # justify
 describe, pre-processing, ref, justify train, valid, test

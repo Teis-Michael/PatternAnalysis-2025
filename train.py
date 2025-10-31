@@ -50,6 +50,8 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
         print(f"📈 Epoch {epoch+1}/{epochs} Complete: Avg Loss = {avg_loss:.4f}")
 
     print(" Training complete with enhanced U-Net!")
+
+    #display single prediction, true mask and original image
     model.eval()
     fig, axes = plt.pyplot.subplots(1, 3, figsize=(12, 9))
     image, masks = test_customdataset[1]
@@ -72,13 +74,13 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
     return losses, epo_count
 
-model = Unet(ins=1, outs=4, dropout=0.1)
+#model = Unet(ins=1, outs=4, dropout=0.1)
+
+model = Unet(ins=1, outs=1, dropout=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
 
-losses, eco = train(model, train_loader, test_customdataset, epochs=30, lr = 0.05) 
-#losses, eco = train(model, train_loader, test_customdataset, epochs=1, lr = 0.0005)
-#losses, eco = train(model, train_loader, test_customdataset, epochs=500, lr = 0.0008)
+losses, eco = train(model, train_loader, test_customdataset, epochs=100, lr = 0.0005)
 
 #create plot of losses over epoch
 plt.pyplot.axhline(y=0, color='r', linestyle='--')
@@ -89,5 +91,3 @@ plt.pyplot.title("losses over epochs")
 plt.pyplot.show()
 
 show_predictions(model, test_customdataset)
-
-#TODO try adding loss after each epoch

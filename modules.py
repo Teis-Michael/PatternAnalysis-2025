@@ -57,7 +57,6 @@ class Unet(nn.Module):
 
         # Apply sigmoid activation to final output
         out = self.sigmoid(self.pool(out))
-        #out = self.sigmoid(out)
 
         return self.pool(out)
     
@@ -76,27 +75,17 @@ class diceloss(nn.Module):
         #pred = torch.sigmoid(pred)
         #targ = torch.sigmoid(targ)
 
-        print("targ shape " , targ.shape)
-        print("targ type " , targ.type())
-        print("targ max " , torch.max(targ))
-        print("targ min " , torch.min(targ))
-        print("targ mean " , torch.mean(targ))
-        print("targ var " , torch.var(targ))
-        print()
-        print("pred shape " , pred.shape)
-        print("pred type " , pred.type())
-        print("pred max " , torch.max(pred))
-        print("pred min " , torch.min(pred))
-        print("pred mean " , torch.mean(pred))
-        print("pred var " , torch.var(pred))
-    
+        #print("targ shape " , targ.shape, " pred shape " , pred.shape)
+        #print("targ type " , targ.type(), " pred type " , pred.type())
+        #print("targ max " , torch.max(targ), " pred max " , torch.max(pred))
+        #print("targ min " , torch.min(targ), " pred min " , torch.min(pred))
+        #print("targ mean " , torch.mean(targ), " pred mean " , torch.mean(pred))
+        #print("targ var " , torch.var(targ), " pred var " , torch.var(pred))    
         
         #intersect and union
-        print("pred: ", pred.sum(), " targ: ", targ.sum())
         inter = (pred * targ).sum() + self.smooth
-        print("inter: ", inter)
         union = pred.sum() + targ.sum() + self.smooth
-        print("union: ", union)
+        #print("inter: ", inter, " union: ", union)
 
         dice_coeff = (2. * inter) / union
         return 1 - dice_coeff

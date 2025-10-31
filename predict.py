@@ -10,6 +10,7 @@ import numpy as np
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def show_predictions(model: Unet, dataset, title = "test", n = 3):
+    """visualise from dataset using model the prediction, true mask and original image"""
     model.eval()
     fig, axes = plt.subplots(3, n, figsize=(12, 9))
     fig.suptitle(title, fontsize=16, fontweight='bold')
@@ -23,7 +24,7 @@ def show_predictions(model: Unet, dataset, title = "test", n = 3):
 
             images = images.unsqueeze(0)
             images = images.unsqueeze(0).to(device)
-            
+
             pred = model(images)[:, 0] 
             pred = pred.detach().numpy()
                 
