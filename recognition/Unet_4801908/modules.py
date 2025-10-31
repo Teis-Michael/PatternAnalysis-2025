@@ -173,3 +173,22 @@ class MultiClassDiceLoss(nn.Module):
             dice_scores.append(dice_coeff)
 
         return 1 - torch.mean(torch.stack(dice_scores))
+    
+    def lossClass(self, pred, targ):
+        """return loss value per class"""
+        target_one_hot = torch.nn.functional.one_hot(targ.long(),self.num_classes)
+        target_one_hot =  target_one_hot.permute(0,3,1,2).float()
+
+        pred =  torch.softmax(pred, dim=1)
+
+        dice_scores = []
+
+        for cls in range(self.num_classes):
+            pred_cls = pred[:,cls].reshape(-1)
+            target_cls = target_one_hot[:,cls].reshape(-1)
+            intersection = (pred_cls * target_cls).sum()
+            dice_coeff = (2.0 * intersection + self.smooth) / (pred_cls.sum() + target_cls.sum() + self.smooth)
+            dice_scores.append(dice_coeff)
+
+        #return (-1 * (np.array(dice_scores))) - 1
+        return 1 - np.array(dice_scores)

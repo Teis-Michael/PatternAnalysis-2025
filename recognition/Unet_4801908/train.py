@@ -56,10 +56,10 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
         outputs = model(images)
         pred =  torch.argmax(outputs,dim=1).squeeze().cpu().numpy()
 
-        print("masks",numpy.unique(masks))
-        print("pred",pred)
-        print("pred: ", pred.shape)
-        print("mask: ", masks.shape)
+        #print("masks",numpy.unique(masks))
+        #print("pred",pred)
+        #print("pred: ", pred.shape)
+        #print("mask: ", masks.shape)
         axes[0].imshow(pred) 
         axes[1].imshow(masks)
         axes[2].imshow(image)
@@ -74,18 +74,19 @@ model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
 
-losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.05)
+#losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.05)
 #losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.0005)
-#losses, eco = train(model, train_loader, test_customdataset, epochs=1000, lr = 0.0005)
+losses, eco = train(model, train_loader, test_customdataset, epochs=150, lr = 0.0008)
 
 #create plot of losses over epoch
-plt.pyplot.axhline(y=0, color='r', linestyle='--')
+plt.pyplot.axhline(y=0.1, color='b', linestyle='--')
+plt.pyplot.axhline(y=0, color='k', linestyle='-')
 plt.pyplot.plot(eco, losses)
 plt.pyplot.xlabel("epoch")
 plt.pyplot.ylabel("loss")
 plt.pyplot.title("losses over epochs")
 plt.pyplot.show()
 
-torch.save(model.state_dict(), "model")
+#torch.save(model.state_dict(), "model")
 
 show_predictions(model, test_customdataset)
