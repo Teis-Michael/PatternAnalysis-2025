@@ -104,18 +104,15 @@ class Unet(nn.Module):
         d2 = self.dec2(torch.cat([self.upsample(d3), e1], 1))  # 64x64
         out = self.dec1(d2)
 
-        # Apply sigmoid activation to final output
-        out = self.sigmoid(out)
-
         return out
-class diceloss(nn.Module):
-    """loss function"""
-    def __init__(self, smooth=1e-8):
-        super(diceloss, self).__init__()
-        self.smooth = smooth
+#class diceloss(nn.Module):
+#    """loss function"""
+#    def __init__(self, smooth=1e-8):
+#        super(diceloss, self).__init__()
+#        self.smooth = smooth
     
-    def forward(self, pred, targ):
-        """return loss value"""
+#    def forward(self, pred, targ):
+#        """return loss value"""
         #flatten
         #pred = pred.reshape(-1)
         #targ = targ.reshape(-1).float()
@@ -139,19 +136,19 @@ class diceloss(nn.Module):
 
         #dice_coeff = (2. * inter) / union
         #return 1 - dice_coeff
-        predictions = pred.reshape(-1)
+#       predictions = pred.reshape(-1)
         #print(predictions)
-        targets = targ.reshape(-1).float()
+#        targets = targ.reshape(-1).float()
         #print(targets)
         # Calculate intersection and union
-        intersection = (predictions * targets).sum()
-        print("Intersection",intersection)
-        print("Union",predictions.sum() + targets.sum())
-        dice_coeff = (2.0 * intersection + self.smooth) / (predictions.sum() + targets.sum() + self.smooth)
-        print(dice_coeff)
-        # Return Dice Loss (1 - Dice Coefficient)
-        return 1 - dice_coeff
-    
+#        intersection = (predictions * targets).sum()
+#        print("Intersection",intersection)
+#        print("Union",predictions.sum() + targets.sum())
+#        dice_coeff = (2.0 * intersection + self.smooth) / (predictions.sum() + targets.sum() + self.smooth)
+#        print(dice_coeff)
+#        # Return Dice Loss (1 - Dice Coefficient)
+#        return 1 - dice_coeff
+#    
 
 class MultiClassDiceLoss(nn.Module):
     def __init__(self, smooth=1e-8):
@@ -175,4 +172,4 @@ class MultiClassDiceLoss(nn.Module):
             dice_coeff = (2.0 * intersection + self.smooth) / (pred_cls.sum() + target_cls.sum() + self.smooth)
             dice_scores.append(dice_coeff)
 
-            return 1 - torch.mean(torch.stack(dice_scores))
+        return 1 - torch.mean(torch.stack(dice_scores))

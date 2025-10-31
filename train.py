@@ -28,15 +28,10 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
         # Training loop with progress
         for batch_idx, (images, masks) in enumerate(train_loader):
-            images = images.to(device)
+            images = images.to(device).float().unsqueeze(1)
             masks = masks.to(device)
-            images = images.float()
-            images = images.unsqueeze(1).to(device)
             outputs = model(images)
-
-            pred = outputs[:, 0]  
-            
-            loss = criterion(pred, masks)
+            loss = criterion(outputs, masks)
             optimiser.zero_grad()
 
             # Backward pass
@@ -53,25 +48,23 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
     #display single prediction, true mask and original image
     model.eval()
-    fig, axes = plt.pyplot.subplots(1, 3, figsize=(12, 9))
-    image, masks = test_customdataset[1]
+    with torch.no_grad():
+        fig, axes = plt.pyplot.subplots(1, 3, figsize=(12, 4))
+        image, masks = test_customdataset[1]
 
-    images = torch.from_numpy(image).to(device)
-    images = images.float()
-    images = images.unsqueeze(1).to(device)
+        images = torch.from_numpy(image).float().unsqueeze(1).to(device)
+        outputs = model(image)
+        pred =  torch.argmax(outputs,dim=1).squeeze().cpu().numpy()
 
-    pred = pred.detach().numpy()
-    #mask = mask.detach().numpy()
-    print("masks",numpy.unique(masks))
-    print("pred",pred)
-    print("pred: ", pred.shape)
-    print("mask: ", masks.shape)
-    axes[0].imshow(pred[0]) 
-    axes[1].imshow(masks)
-    axes[2].imshow(image)
+        print("masks",numpy.unique(masks))
+        print("pred",pred)
+        print("pred: ", pred.shape)
+        print("mask: ", masks.shape)
+        axes[0].imshow(pred[0]) 
+        axes[1].imshow(masks)
+        axes[2].imshow(image)
 
-    plt.pyplot.show()
-    model.train()
+        plt.pyplot.show()
 
     return losses, epo_count
 
