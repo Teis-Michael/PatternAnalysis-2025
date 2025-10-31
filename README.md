@@ -26,11 +26,15 @@ problem: segment 2D OASIS brain scans
 
 semantic segmentation 
 
-# working principles 
+## archetecture 
 algorithm implemented, problem solved. 
 the dataset consists of a image and a segmentation image that acts as the image mask.
-these are used in a Unet model that consists of _x_ layers of _y_ including a encoder, decoder.
-this is then trained with epochs and learning rate of _z_.
+these are used in a Unet model that consists of 3 convolution blocks for both encoder, decoder.
+the Unet takes in a batch_sizex1x256x256 image and outputs batch_size_64x64 probability
+
+# hyper parameter
+this is then trained with epochs _z_
+and learning rate of _z_.
 
 # dependencies
 scikit-learn 1.7.1
@@ -46,15 +50,22 @@ some variation in end results. <ins>random selection from dataset</ins>
 ## example
 # input
 from the 2D OASIS brain data and input image and mask where collected. 
+'display image of inputs'
 ''from png labeled slices and seg. ''
 the mask is resize to 64x64 using a nearest interpolation method
 the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1
-inputs
+'display mask after processing'
 # output
 // current 
 outputs a //check output size// with 1 channel. this is compared with a dice loss function to determine loss.  
-
+'display output'
+'display loss over epoch'
 the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
-# justify
-describe, pre-processing, ref, justify train, valid, test
+# references
+
+https://colab.research.google.com/drive/1VOsZSyRhyuHLmgoqGriQk01ub4bKNmZ1?usp=sharing#scrollTo=23402ec0
+https://github.com/shakes76/PatternAnalysis-2024/pull/90
+https://github.com/shakes76/PatternAnalysis-2024/pull/113
+https://github.com/shakes76/PatternAnalysis-2024/pull/178
+https://github.com/shakes76/PatternAnalysis-2024/pull/138
