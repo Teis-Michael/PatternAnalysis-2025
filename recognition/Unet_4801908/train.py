@@ -76,7 +76,7 @@ model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
 
 #losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.05)
 #losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.0005)
-losses, eco = train(model, train_loader, test_customdataset, epochs=150, lr = 0.0008)
+losses, eco = train(model, train_loader, test_customdataset, epochs=350, lr = 0.0008)
 
 #create plot of losses over epoch
 plt.pyplot.axhline(y=0.1, color='b', linestyle='--')
@@ -87,6 +87,6 @@ plt.pyplot.ylabel("loss")
 plt.pyplot.title("losses over epochs")
 plt.pyplot.show()
 
-#torch.save(model.state_dict(), "model")
+torch.save(model.state_dict(), "model")
 
 show_predictions(model, test_customdataset)

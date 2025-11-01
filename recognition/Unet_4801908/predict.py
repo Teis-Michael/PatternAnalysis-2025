@@ -59,6 +59,6 @@ if __name__ == '__main__':
     #load model
     model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
     model.load_state_dict(torch.load("model", weights_only=True))
-    show_predictions(model, test_customdataset)
+    #show_predictions(model, test_customdataset)
     test_dicevalue(model, test_customdataset, n = 16)
 
