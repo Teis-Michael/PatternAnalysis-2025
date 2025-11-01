@@ -33,14 +33,17 @@ the Unet takes in a batch_sizex1x256x256 image and outputs batch_size_64x64 prob
 ![Unet architecture.](https://www.google.com/url?sa=i&url=https%3A%2F%2Flmb.informatik.uni-freiburg.de%2Fpeople%2Fronneber%2Fu-net%2F&psig=AOvVaw0EgRNrlOzHFfwOa1GCLyL9&ust=1762052265179000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCKid1Kz6z5ADFQAAAAAdAAAAABAE)
 
 unlike autoencoder, each encoder convolution block can pass on data to a coresponding decoder convolution block. 
+this is performed via the 
+'''
+nn.Upsample()
+'''
 
 the algorithm implemented performs a sematic segmentation. 
 
 ### convolution block
-each colvolution block consists of 2 convolution layers, using a leakyReLu 
+each colvolution block consists of 2 convolution layers, using a leakyReLu activation function. dropout function is use to remove features and prevent overreliance on a few features. 
 
-what are batchnorm and dropout
-what does upsample do
+what are batchnorm
 
 ### loss function
 a multiclass dice loss function is used.
@@ -59,6 +62,8 @@ from the 2D OASIS brain data and input image and mask where collected.
 the mask is resize to 64x64 using a nearest interpolation method
 the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1
 'display mask after processing'
+
+only data from the train dataset was used as inputs for the unet
 ### Output
 outputs a 512x512 TODO double check>> with 4 channel. this is compared with a dice loss function to determine loss.  
 'display output'
@@ -66,7 +71,17 @@ outputs a 512x512 TODO double check>> with 4 channel. this is compared with a di
 the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
 ### Results
+the avgerage dice loss value lowers 
 
+![temp] (C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 loss func.png)
+
+the model perfromance on test dataset
+![a](C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi.png)
+
+
+dice loss per class
+![loss per class](C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi dice loss.png)
+all class have a dice loss under 0.10, thus their have a dice coefficent over 0.9.
 
 # Dependencies
 scikit-learn 1.7.1
