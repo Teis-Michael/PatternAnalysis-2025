@@ -63,23 +63,19 @@ the image pile is a 256x256 grayscale the was normalise to a mean of 0 and stand
 
 only data from the train dataset was used as inputs for the unet
 ### Output
-outputs a 256x256 TODO double check>> with 4 channel. this is compared with a dice loss function to determine loss.  
+outputs a 256x256 with 4 channel. this is compared with a dice loss function to determine loss.  
 
 the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
 ### Results
-the avgerage dice loss value lowers 
+the average dice loss value lowers with more epochs.
+<img src="images/1000 loss func.png" alt="Alt text describing the image" width="600"/>
 
-![temp](images/1000 loss func.png)
-<img src="images/1000 loss func.png" alt="Alt text describing the image" width="700"/>
-the model perfromance on test dataset
-![a](/PatternAnalysis-2025-1/recognition/Unet_4801908/images\1000 multi.png)
-<img src="images/1000 multi.png" alt="Alt text describing the image" width="700"/>
+the trained models performance on test dataset. prediction, true mask, original image
+<img src="images/1000 multi.png" alt="Alt text describing the image" width="600"/>
 
 dice loss per class
-
-![loss per class](/PatternAnalysis-2025-1/recognition/Unet_4801908/images/1000 multi dice loss.png)
-<img src="images/1000 multi dice loss.png" alt="Alt text describing the image" width="700"/>
+<img src="images/1000 multi dice loss.png" alt="Alt text describing the image" width="600"/>
 
 all class have a dice loss under 0.10, thus their have a dice coefficent over 0.9.
 
