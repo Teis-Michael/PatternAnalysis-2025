@@ -73,8 +73,8 @@ the outputs have a degrees of randomness. this is particalue due to some randomn
 ### Results
 the avgerage dice loss value lowers 
 
-![temp] (./PatternAnalysis-2025-1/recognition/Unet_4801908/images/1000 loss func.png)
-<img src="./PatternAnalysis-2025-1/recognition/Unet_4801908/images/1000 loss func.png" alt="Alt text describing the image" width="300"/>
+![temp] (images/1000 loss func.png)
+<img src="images/1000 loss func.png" alt="Alt text describing the image" width="300"/>
 the model perfromance on test dataset
 ![a](\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi.png)
 
