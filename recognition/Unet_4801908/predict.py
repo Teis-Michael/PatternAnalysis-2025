@@ -22,9 +22,9 @@ def show_predictions(model: Unet, dataset, title = "test", n = 3):
 
             images = torch.from_numpy(image).unsqueeze(0).unsqueeze(0).float().to(device)
 
-            pred = model(images) #[:, 0] 
+            pred = model(images)
             pred = torch.argmax(pred,dim=1).squeeze().cpu().numpy()
-                
+            #shows prediction, true mask and original image
             axes[i, 0].imshow(pred) 
             axes[i, 1].imshow(true_mask)
             axes[i, 2].imshow(image)
@@ -41,12 +41,14 @@ def test_dicevalue(model: Unet, dataset, n = 3):
             true_mask = torch.from_numpy(true_mask).unsqueeze(0)
             images = torch.from_numpy(image).unsqueeze(0).unsqueeze(0).float().to(device)
             pred = model(images)
+            #modified diceloss for indiv class dice loss
             loss_class = MultiClassDiceLoss().lossClass(pred, true_mask)
             class_avg = class_avg + loss_class
         
-        print("class average: ", class_avg / n)
-        x = np.array(["background","CSF", "grey", "white"])
+        #average of dice loss over multiple images
         y = class_avg / n
+        x = np.array(["background","CSF", "grey", "white"])
+        print("class average: ", class_avg / n)
 
         plt.bar(x,y)
         plt.xlabel("class")
@@ -59,6 +61,6 @@ if __name__ == '__main__':
     #load model
     model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
     model.load_state_dict(torch.load("model_1000_0.0005", weights_only=True))
-    #show_predictions(model, test_customdataset)
+    show_predictions(model, test_customdataset)
     test_dicevalue(model, test_customdataset, n = 16)
 

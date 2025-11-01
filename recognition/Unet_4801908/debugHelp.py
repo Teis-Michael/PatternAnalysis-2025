@@ -26,13 +26,11 @@ def testNormalisemethod(ten):
     fig, axes = plt.subplots(3, 3, figsize=(12, 9))
     
     #process and normalise data
-    temp = torch.from_numpy(ten).float()
-    image_temp = temp.unsqueeze(0)
-
     transform_compose = torchvision.transforms.Compose([
         torchvision.transforms.Normalize(mean=0, std=1, inplace=True)
     ])
-
+    temp = torch.from_numpy(ten).float()
+    image_temp = temp.unsqueeze(0)
     a = torch.nn.functional.normalize(image_temp, dim = 1)
     transform = torchvision.transforms.Normalize(0, 1)
     ten2 = transform(image_temp)

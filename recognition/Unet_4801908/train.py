@@ -12,10 +12,12 @@ import predict
 from predict import show_predictions
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+epochs = 1000
+lr = 0.0008
 
 def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
     model.to(device)
-    criterion = MultiClassDiceLoss() #torch.nn.BCEWithLogitsLoss #torch.nn.BCELoss() #diceloss()
+    criterion = MultiClassDiceLoss()
     optimiser = torch.optim.Adam(model.parameters(), lr=lr)
 
     losses = []
@@ -68,16 +70,11 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
 
     return losses, epo_count
 
-#model = Unet(ins=1, outs=4, dropout=0.1)
-epochs = 1000
-lr = 0.0005
 model = Unet(in_channels=1, out_channels=4, dropout_p=0.1)
 #lowered learning rate to improve performance
 #non optimal learning optima due to large region of the same value. 
 
-#losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.05)
-#losses, eco = train(model, train_loader, test_customdataset, epochs=10, lr = 0.0005)
-losses, eco = train(model, train_loader, test_customdataset, epochs=epochs, lr = 0.0008)
+losses, eco = train(model, train_loader, test_customdataset, epochs=epochs, lr = lr)
 
 #create plot of losses over epoch
 plt.pyplot.axhline(y=0.1, color='b', linestyle='--')

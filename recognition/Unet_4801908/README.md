@@ -24,7 +24,7 @@ Segment the 2D OASIS brain data set with an Improved UNet [1] or 2D CAN [2] with
 algorithm: Improved UNet for image segmentsation
 problem: segment 2D OASIS brain scans
 
-## Architecture
+# Architecture
 algorithm implemented, problem solved. 
 the dataset consists of a image and a segmentation image that acts as the image mask.
 these are used in a Unet model that consists of 3 convolution blocks for both encoder, decoder.
@@ -36,36 +36,36 @@ unlike autoencoder, each encoder convolution block can pass on data to a corespo
 
 the algorithm implemented performs a sematic segmentation. 
 
-# convolution block
+### convolution block
 each colvolution block consists of 2 convolution layers, using a leakyReLu 
 
 what are batchnorm and dropout
 what does upsample do
 
-# loss function
+### loss function
 a multiclass dice loss function is used.
 Which uses a different matrices for each class to generate multiple dice coeff then determining their mean to determine the loss value.
 
-# Hyper parameter
+### Hyper parameter
 this is then trained with epochs 1000
 and learning rate of 0.0008
 batch size of 16
 
-## OASIS brain data
-# Input
+# OASIS brain data
+### Input
 from the 2D OASIS brain data and input image and mask where collected. 
 'display image of inputs'
 ''from png labeled slices and seg. ''
 the mask is resize to 64x64 using a nearest interpolation method
 the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1
 'display mask after processing'
-# Output
+### Output
 outputs a 512x512 TODO double check>> with 4 channel. this is compared with a dice loss function to determine loss.  
 'display output'
 'display loss over epoch'
 the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
-# Results
+### Results
 
 
 # Dependencies
