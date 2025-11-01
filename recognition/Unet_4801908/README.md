@@ -73,14 +73,14 @@ the outputs have a degrees of randomness. this is particalue due to some randomn
 ### Results
 the avgerage dice loss value lowers 
 
-![temp] (C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 loss func.png)
+![temp] (/PatternAnalysis-2025-1/recognition/Unet_4801908/images/1000 loss func.png)
 
 the model perfromance on test dataset
-![a](C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi.png)
+![a](\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi.png)
 
 
 dice loss per class
-![loss per class](C:\Users\teism\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi dice loss.png)
+![loss per class](\PatternAnalysis-2025-1\recognition\Unet_4801908\images\1000 multi dice loss.png)
 all class have a dice loss under 0.10, thus their have a dice coefficent over 0.9.
 
 # Dependencies
