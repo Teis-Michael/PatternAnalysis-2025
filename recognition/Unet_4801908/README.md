@@ -49,16 +49,16 @@ Which uses a different matrices for each class to generate multiple dice coeff t
 $$dice coeffic = \frac{2*|A\cap B|}{|A|+|B|}$$
 
 ### Hyper parameter
-this is then trained with epochs 1000
-and learning rate of 0.0008
-batch size of 16
+this is then trained with epochs 1000\
+and learning rate of 0.0008\
+batch size of 16\
 
 # OASIS brain data
 ### Input
 from the 2D OASIS brain data and input image and mask where collected. 
-''from png labeled slices and seg. ''
+''from png labeled slices and seg. ''\
 the mask image ranges from 0-255 is convert to a array ranging from 0-3
-the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1
+the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1\
 'display mask after processing'
 
 only data from the train dataset was used as inputs for the unet
@@ -68,13 +68,16 @@ outputs a 256x256 with 4 channel. this is compared with a dice loss function to 
 the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
 
 ### Results
-the average dice loss value lowers with more epochs.
+the average dice loss value lowers with more epochs.\
+
 <img src="images/1000 loss func.png" alt="Alt text describing the image" width="600"/>
 
-the trained models performance on test dataset. prediction, true mask, original image
+the trained models performance on test dataset. prediction, true mask, original image\
+
 <img src="images/1000 multi.png" alt="Alt text describing the image" width="600"/>
 
-dice loss per class
+dice loss per class\
+
 <img src="images/1000 multi dice loss.png" alt="Alt text describing the image" width="600"/>
 
 all class have a dice loss under 0.10, thus their have a dice coefficent over 0.9.
