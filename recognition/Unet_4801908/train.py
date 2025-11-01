@@ -2,9 +2,7 @@ import modules
 from modules import Unet
 from modules import *
 import dataset
-from dataset import train_loader
-from dataset import test_customdataset
-from dataset import test_loader
+from dataset import getDataLoader
 import torch
 import matplotlib as plt
 import numpy
@@ -14,6 +12,8 @@ from predict import show_predictions
 device = "cuda" if torch.cuda.is_available() else "cpu"
 epochs = 1000
 lr = 0.0008
+
+train_loader, test_loader, test_customdataset, train_customdataset = getDataLoader(8, 4)
 
 def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
     model.to(device)

@@ -2,11 +2,13 @@ import modules
 from modules import Unet
 from modules import *
 import dataset
-from dataset import train_loader
-from dataset import test_customdataset
+from dataset import getDataLoader
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+train_loader, test_loader, test_customdataset, train_customdataset = getDataLoader(16, 4)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 

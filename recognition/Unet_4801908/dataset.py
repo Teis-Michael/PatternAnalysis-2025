@@ -7,8 +7,7 @@ import os
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-#downloaded local 
-number_png = 16
+#downloaded local
 directory_seg_train = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_seg_train"
 directory_train = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_train"
 directory_seg_test = r"C:\Users\teism\PatternAnalysis-2025-1\keras_png_slices_data\keras_png_slices_data\keras_png_slices_seg_test"
@@ -25,15 +24,7 @@ def dataFromFile(path: str, size: int) -> list[PIL.Image]:
             count+=1
         if count >= size:
             return sets
-
-train_set = dataFromFile(directory_train, number_png)
-seg_train_set = dataFromFile(directory_seg_train, number_png)
-test_set = dataFromFile(directory_test, number_png)
-seg_test_set = dataFromFile(directory_seg_test, number_png)
-
-#define classes/labels
-n_classes = 4
-classes = ["background","CSF", "grey", "white"]
+    return sets
 
 #class to store the picture and convert into a usable numpy array
 class ImageDataset(torch.utils.data.Dataset):
@@ -64,16 +55,25 @@ class ImageDataset(torch.utils.data.Dataset):
 
         return image_temp, binary_mask
 
-#dataset creator
-test_customdataset = ImageDataset(test_set, seg_test_set)
-train_customdataset = ImageDataset(train_set, seg_train_set)
+def getDataLoader(number_png = 8, batch_size = 4):
+    train_set = dataFromFile(directory_train, number_png)
+    seg_train_set = dataFromFile(directory_seg_train, number_png)
+    test_set = dataFromFile(directory_test, number_png)
+    seg_test_set = dataFromFile(directory_seg_test, number_png)
 
-#train loader
-batch_size = 8
-train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_size=batch_size, shuffle=True)
-test_loader = torch.utils.data.DataLoader(dataset=test_customdataset, batch_size=batch_size, shuffle=True)
+    #dataset creator
+    test_customdataset = ImageDataset(test_set, seg_test_set)
+    train_customdataset = ImageDataset(train_set, seg_train_set)
+
+    #train loader
+    batch_size = 8
+    train_loader = torch.utils.data.DataLoader(dataset=train_customdataset, batch_size=batch_size, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(dataset=test_customdataset, batch_size=batch_size, shuffle=True)
+
+    return train_loader, test_loader, test_customdataset, train_customdataset
 
 if __name__ == '__main__':
     #view normalisation method
+    train_loader, test_loader, test_customdataset, train_customdataset = getDataLoader(8, 4)
     a,b = test_customdataset.__getitem__(0)
     dh.testNormalisemethod(a)
