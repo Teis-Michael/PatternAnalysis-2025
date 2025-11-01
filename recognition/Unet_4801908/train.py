@@ -58,10 +58,6 @@ def train(model, train_loader, test_customdataset, epochs=3, lr=0.001):
         outputs = model(images)
         pred =  torch.argmax(outputs,dim=1).squeeze().cpu().numpy()
 
-        #print("masks",numpy.unique(masks))
-        #print("pred",pred)
-        #print("pred: ", pred.shape)
-        #print("mask: ", masks.shape)
         axes[0].imshow(pred) 
         axes[1].imshow(masks)
         axes[2].imshow(image)
