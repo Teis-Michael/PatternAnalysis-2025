@@ -33,9 +33,9 @@ the Unet takes in a batch_sizex1x256x256 image and outputs batch_sizex4x256x256 
 
 unlike autoencoder, each encoder convolution block can pass on data to a coresponding decoder convolution block. 
 this is performed via the 
-'''
+```
 nn.Upsample()
-'''
+```
 this Unet performs a sematic segmentation. categorising a pixel as a specific class. 
 
 ### convolution block
@@ -55,17 +55,18 @@ batch size of 16
 
 # OASIS brain data
 ### Input
-from the 2D OASIS brain data and input image and mask where collected. 
-''from png labeled slices and seg. ''\
+from the 2D OASIS brain data and input image and mask where collected.\
 the mask image ranges from 0-255 is convert to a array ranging from 0-3
 the image pile is a 256x256 grayscale the was normalise to a mean of 0 and standard deviation of 1\
-'display mask after processing'
 
 only data from the train dataset was used as inputs for the unet
 ### Output
 outputs a 256x256 with 4 channel. this is compared with a dice loss function to determine loss.  
 
-the outputs have a degrees of randomness. this is particalue due to some randomness in the 'adam optimiser' and datasetloader
+the outputs have a degrees of randomness. this is particalue due to some randomness in the 
+```
+torch.optim.Adam()
+```
 
 ### Results
 the average dice loss value lowers with more epochs.
@@ -83,12 +84,12 @@ dice loss per class.
 all class have a dice loss under 0.10, thus their have a dice coefficent over 0.9.
 
 # Dependencies
-scikit-learn 1.7.1
-matplotlib 3.10.0
-numpy 2.3.2
-torch 2.8
-torchmetric 1.8.
-PIL 11.1.0
+scikit-learn 1.7.1 <br/>
+matplotlib 3.10.0 <br/>
+numpy 2.3.2 <br/>
+torch 2.8 <br/>
+torchmetric 1.8 <br/>
+PIL 11.1.0 <br/>
 
 # References
 
